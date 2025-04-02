@@ -1,5 +1,5 @@
 
-import AboutCourse from "@/components/sections/AboutCourse";
+import AboutCourse from "@/components/sections/NewsCarousel";
 import NewsSection from "@/components/sections/NewsSection";
 import EventsSection from "@/components/sections/EventsSection";
 import QuickLinks from "@/components/sections/QuickLinks";
