@@ -1,4 +1,4 @@
-'use client'; // Necessário para hooks e efeitos
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -11,41 +11,36 @@ type CarouselItem = {
 };
 
 export default function NewsCarousel() {
-  // Mock de dados (substitua por API depois)
-  const items: CarouselItem[] = [
-    {
-      id: 1,
-      title: "Inscrições Abertas para Workshop",
-      description: "Participe do nosso workshop de introdução ao curso.",
-      date: "15/06/2024",
-      type: 'event'
-    },
-    {
-      id: 2,
-      title: "Novo Laboratório Disponível",
-      description: "Conheça nosso novo laboratório de pesquisas avançadas.",
-      date: "10/06/2024",
-      type: 'news'
-    },
-    {
-      id: 3,
-      title: "Edital de Bolsas Publicado",
-      description: "Confira as oportunidades para o próximo semestre.",
-      date: "05/06/2024",
-      type: 'news'
-    }
-  ];
-
+  const [items, setItems] = useState<CarouselItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Efeito para transição automática
   useEffect(() => {
+    // Simulando uma chamada para uma API
+    fetch('/api/destaques')
+      .then((res) => res.json())
+      .then((data) => {
+        const formatted = data.map((item: any, index: number) => ({
+          id: item.id,
+          title: item.title,
+          description: item.body,
+          date: new Date(Date.now() - index * 86400000).toLocaleDateString(),
+          type: index % 2 === 0 ? 'news' : 'event'
+        }));
+        setItems(formatted);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (items.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % items.length);
-    }, 5000); // Muda a cada 5 segundos
-
+    }, 5000);
     return () => clearInterval(interval);
-  }, [items.length]);
+  }, [items]);
+
+  if (items.length === 0) {
+    return <p className="text-gray-500">Carregando destaques...</p>;
+  }
 
   return (
     <section className="bg-white p-6 rounded-lg shadow relative h-64 overflow-hidden">
@@ -55,6 +50,7 @@ export default function NewsCarousel() {
         {items.map((item, index) => (
           <div 
             key={item.id}
+            aria-hidden={index !== currentIndex}
             className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
           >
             <div className={`p-4 rounded-lg ${item.type === 'news' ? 'bg-blue-50' : 'bg-green-50'}`}>
@@ -69,7 +65,6 @@ export default function NewsCarousel() {
         ))}
       </div>
 
-      {/* Indicadores */}
       <div className="flex justify-center mt-4 space-x-2 absolute bottom-4 left-0 right-0">
         {items.map((_, index) => (
           <button
