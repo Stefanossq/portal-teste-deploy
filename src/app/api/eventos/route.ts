@@ -2,14 +2,30 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
- // certifique-se que este caminho está certo no seu projeto
-
 export async function GET() {
   try {
-    const eventos = await prisma.evento.findMany();
+    const eventos = await prisma.evento.findMany({
+      orderBy: { data: 'asc' } // opcional: ordena por data
+    });
     return NextResponse.json(eventos);
   } catch (error) {
     console.error('Erro ao buscar eventos:', error);
     return NextResponse.json({ error: 'Erro ao buscar eventos' }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { titulo, descricao, data, local } = body; 
+
+    const novoEvento = await prisma.evento.create({
+      data: { titulo, descricao, data, local }, 
+    });
+
+    return NextResponse.json(novoEvento, { status: 201 });
+  } catch (error) {
+    console.error('Erro ao criar evento:', error);
+    return NextResponse.json({ error: 'Erro ao criar evento' }, { status: 500 });
   }
 }
