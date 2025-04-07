@@ -1,3 +1,4 @@
+
 // src/app/api/eventos/route.ts
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
@@ -5,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
   try {
     const eventos = await prisma.evento.findMany({
-      orderBy: { data: 'asc' } // opcional: ordena por data
+      orderBy: { data: 'asc' },
     });
     return NextResponse.json(eventos);
   } catch (error) {
@@ -17,10 +18,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { titulo, descricao, data, local } = body; 
+    const { titulo, descricao, data, local } = body;
 
     const novoEvento = await prisma.evento.create({
-      data: { titulo, descricao, data, local }, 
+      data: { titulo, descricao, data, local },
     });
 
     return NextResponse.json(novoEvento, { status: 201 });

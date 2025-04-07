@@ -1,66 +1,58 @@
 // src/app/api/eventos/[id]/route.ts
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
-// Tipagem correta do parâmetro
-type Context = {
-  params: {
-    id: string;
-  };
-};
-
-export async function GET(_: Request, context: Context) {
-  const id = Number(context.params.id);
-
-  if (isNaN(id)) {
-    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
-  }
+// GET /api/eventos/[id]
+export async function GET(
+  _req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params
 
   try {
-    const evento = await prisma.evento.findUnique({ where: { id } });
+    const evento = await prisma.evento.findUnique({ where: { id } })
 
     if (!evento) {
-      return NextResponse.json({ error: 'Evento não encontrado' }, { status: 404 });
+      return NextResponse.json({ error: 'Evento não encontrado' }, { status: 404 })
     }
 
-    return NextResponse.json(evento);
+    return NextResponse.json(evento)
   } catch (error) {
-    return NextResponse.json({ error: 'Erro ao buscar evento' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao buscar o evento' }, { status: 500 })
   }
 }
 
-export async function PUT(req: Request, context: Context) {
-  const id = Number(context.params.id);
-
-  if (isNaN(id)) {
-    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
-  }
+// PUT /api/eventos/[id]
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params
+  const data = await req.json()
 
   try {
-    const data = await req.json();
-
     const eventoAtualizado = await prisma.evento.update({
       where: { id },
       data,
-    });
+    })
 
-    return NextResponse.json(eventoAtualizado);
+    return NextResponse.json(eventoAtualizado)
   } catch (error) {
-    return NextResponse.json({ error: 'Erro ao atualizar evento' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao atualizar o evento' }, { status: 500 })
   }
 }
 
-export async function DELETE(_: Request, context: Context) {
-  const id = Number(context.params.id);
-
-  if (isNaN(id)) {
-    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
-  }
+// DELETE /api/eventos/[id]
+export async function DELETE(
+  _req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params
 
   try {
-    await prisma.evento.delete({ where: { id } });
-    return NextResponse.json({ mensagem: 'Evento deletado com sucesso' });
+    await prisma.evento.delete({ where: { id } })
+    return NextResponse.json({ message: 'Evento deletado com sucesso' })
   } catch (error) {
-    return NextResponse.json({ error: 'Erro ao deletar evento' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao deletar o evento' }, { status: 500 })
   }
 }

@@ -1,19 +1,17 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL") // Isso deve estar no arquivo .env
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Evento {
-  id        Int     @id @default(autoincrement())
+  id        String   @id @default(uuid()) // ID como string UUID
   titulo    String
   descricao String
-  data      String // Ou DateTime se estiver usando formato ISO
+  data      String   // ou DateTime se preferir
   local     String
   categoria String?
   tipo      String?
@@ -21,7 +19,7 @@ model Evento {
 }
 
 model Destaque {
-  id        Int     @id @default(autoincrement())
+  id        String   @id @default(uuid())
   titulo    String
   descricao String
   imagemUrl String?

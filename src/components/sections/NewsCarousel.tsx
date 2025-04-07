@@ -18,22 +18,28 @@ export default function NewsCarousel() {
     fetch('/api/eventos')
       .then((res) => res.json())
       .then((data) => {
-        const formatted = data.map((item: any, index: number) => ({
+        if (!Array.isArray(data)) {
+          console.error('Resposta da API não é um array:', data);
+          return;
+        }
+  
+        const formatted: CarouselItem[] = data.map((item: any) => ({
           id: item.id,
           title: item.titulo,
           description: item.descricao,
           date: item.data,
-          type: 'event'
+          type: 'event' as const
         }));
+  
         setItems(formatted);
       });
   }, []);
-
+  
   useEffect(() => {
     if (items.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % items.length);
-    }, 8000); // tempo mais longo para leitura
+    }, 8000);
     return () => clearInterval(interval);
   }, [items]);
 
@@ -54,12 +60,24 @@ export default function NewsCarousel() {
               index === currentIndex ? 'opacity-100 block' : 'opacity-0 hidden'
             }`}
           >
-            <div className={`p-4 rounded-lg ${item.type === 'news' ? 'bg-blue-50' : 'bg-green-50'}`}>
-              <span className={`px-2 py-1 rounded text-xs font-medium ${item.type === 'news' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
+            <div
+              className={`p-4 rounded-lg ${
+                item.type === 'news' ? 'bg-blue-50' : 'bg-green-50'
+              }`}
+            >
+              <span
+                className={`px-2 py-1 rounded text-xs font-medium ${
+                  item.type === 'news'
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-green-100 text-green-800'
+                }`}
+              >
                 {item.type === 'news' ? 'Notícia' : 'Evento'}
               </span>
               <h3 className="text-xl font-semibold mt-2 text-gray-800">{item.title}</h3>
-              <p className="text-gray-600 mt-1 whitespace-pre-line break-words">{item.description}</p>
+              <p className="text-gray-600 mt-1 whitespace-pre-line break-words">
+                {item.description}
+              </p>
               <p className="text-sm text-gray-500 mt-3">{item.date}</p>
             </div>
           </div>
@@ -71,7 +89,9 @@ export default function NewsCarousel() {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full ${index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'}`}
+            className={`w-2 h-2 rounded-full ${
+              index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
+            }`}
             aria-label={`Ir para item ${index + 1}`}
           />
         ))}
