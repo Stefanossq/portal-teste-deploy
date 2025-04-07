@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 export default function EditarEventoPage() {
   const { id } = useParams();
@@ -48,39 +47,54 @@ export default function EditarEventoPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Editar Evento</h1>
+    <div className="form-container">
+      <h1 className="form-title">Editar Evento</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="titulo"
-          value={form.titulo}
-          onChange={handleChange}
-          placeholder="Título"
-          className="w-full border p-2 rounded"
-        />
-        <input
-          name="data"
-          value={form.data}
-          onChange={handleChange}
-          placeholder="Data"
-          type="date"
-          className="w-full border p-2 rounded"
-        />
-        <input
-          name="local"
-          value={form.local}
-          onChange={handleChange}
-          placeholder="Local"
-          className="w-full border p-2 rounded"
-        />
-        <textarea
-          name="descricao"
-          value={form.descricao}
-          onChange={handleChange}
-          placeholder="Descrição"
-          className="w-full border p-2 rounded"
-        />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <div className="form-field">
+          <label>Título</label>
+          <input
+            name="titulo"
+            value={form.titulo}
+            onChange={handleChange}
+            placeholder="Título"
+            required
+          />
+        </div>
+
+        <div className="form-field">
+          <label>Data</label>
+          <input
+            name="data"
+            value={form.data}
+            onChange={handleChange}
+            type="date"
+            required
+          />
+        </div>
+
+        <div className="form-field">
+          <label>Local</label>
+          <input
+            name="local"
+            value={form.local}
+            onChange={handleChange}
+            placeholder="Local"
+            required
+          />
+        </div>
+
+        <div className="form-field">
+          <label>Descrição</label>
+          <textarea
+            name="descricao"
+            value={form.descricao}
+            onChange={handleChange}
+            placeholder="Descrição"
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn-submit">
           Salvar
         </button>
       </form>

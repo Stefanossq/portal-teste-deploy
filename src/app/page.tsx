@@ -1,4 +1,3 @@
-
 import AboutCourse from "@/components/sections/NewsCarousel";
 import NewsSection from "@/components/sections/NewsSection";
 import EventsSection from "@/components/sections/EventsSection";
@@ -6,10 +5,10 @@ import QuickLinks from "@/components/sections/QuickLinks";
 
 export default function Home() {
   return (
-    <div className="space-y-8">
+    <div className="page-container">
       <AboutCourse />
-      
-      <section className="grid md:grid-cols-3 gap-6">
+
+      <section className="sections-grid">
         <NewsSection />
         <EventsSection />
         <QuickLinks />

@@ -22,19 +22,19 @@ export default function NewsCarousel() {
           console.error('Resposta da API não é um array:', data);
           return;
         }
-  
+
         const formatted: CarouselItem[] = data.map((item: any) => ({
           id: item.id,
           title: item.titulo,
           description: item.descricao,
           date: item.data,
-          type: 'event' as const
+          type: 'event'
         }));
-  
+
         setItems(formatted);
       });
   }, []);
-  
+
   useEffect(() => {
     if (items.length === 0) return;
     const interval = setInterval(() => {
@@ -44,54 +44,38 @@ export default function NewsCarousel() {
   }, [items]);
 
   if (items.length === 0) {
-    return <p className="text-gray-500">Carregando destaques...</p>;
+    return <p className="carousel-description">Carregando destaques...</p>;
   }
 
   return (
-    <section className="bg-white p-6 rounded-lg shadow w-full max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-blue-900 mb-4">Destaques</h2>
+    <section className="news-carousel">
+      <h2>Destaques</h2>
 
-      <div className="relative">
+      <div className="carousel-wrapper">
         {items.map((item, index) => (
           <div
             key={item.id}
             aria-hidden={index !== currentIndex}
-            className={`transition-opacity duration-1000 ${
-              index === currentIndex ? 'opacity-100 block' : 'opacity-0 hidden'
-            }`}
+            className={`carousel-item ${index === currentIndex ? 'visible' : 'hidden'}`}
           >
-            <div
-              className={`p-4 rounded-lg ${
-                item.type === 'news' ? 'bg-blue-50' : 'bg-green-50'
-              }`}
-            >
-              <span
-                className={`px-2 py-1 rounded text-xs font-medium ${
-                  item.type === 'news'
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-green-100 text-green-800'
-                }`}
-              >
+            <div className={`carousel-box ${item.type === 'news' ? 'news' : ''}`}>
+              <span className={`carousel-label ${item.type === 'news' ? 'news' : ''}`}>
                 {item.type === 'news' ? 'Notícia' : 'Evento'}
               </span>
-              <h3 className="text-xl font-semibold mt-2 text-gray-800">{item.title}</h3>
-              <p className="text-gray-600 mt-1 whitespace-pre-line break-words">
-                {item.description}
-              </p>
-              <p className="text-sm text-gray-500 mt-3">{item.date}</p>
+              <h3 className="carousel-title">{item.title}</h3>
+              <p className="carousel-description">{item.description}</p>
+              <p className="carousel-date">{item.date}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center mt-4 space-x-2">
+      <div className="carousel-dots">
         {items.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full ${
-              index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
-            }`}
+            className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
             aria-label={`Ir para item ${index + 1}`}
           />
         ))}

@@ -28,56 +28,53 @@ export default function NovoEventoPage() {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-blue-900 mb-4">Novo Evento</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Título</label>
+    <div className="novo-evento-container">
+      <h1 className="novo-evento-title">Novo Evento</h1>
+      <form onSubmit={handleSubmit} className="novo-evento-form">
+        <div className="form-group">
+          <label className="form-label">Título</label>
           <input
             type="text"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             required
-            className="w-full border px-3 py-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium">Descrição</label>
+        <div className="form-group">
+          <label className="form-label">Descrição</label>
           <textarea
             value={descricao}
             onChange={(e) => setDescricao(e.target.value)}
             required
-            className="w-full border px-3 py-2 rounded"
+            className="form-textarea"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium">Data</label>
+        <div className="form-group">
+          <label className="form-label">Data</label>
           <input
             type="date"
             value={data}
             onChange={(e) => setData(e.target.value)}
             required
-            className="w-full border px-3 py-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium">Local</label>
+        <div className="form-group">
+          <label className="form-label">Local</label>
           <input
             type="text"
             value={local}
             onChange={(e) => setLocal(e.target.value)}
             required
-            className="w-full border px-3 py-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
+        <button type="submit" className="form-button">
           Criar Evento
         </button>
       </form>
