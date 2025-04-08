@@ -1,6 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 import fs from 'fs/promises'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const prisma = new PrismaClient()
 
@@ -20,7 +24,7 @@ async function main() {
 
       const evento = {
         titulo: acf.evento_nome,
-        descricao: acf.evento_descricao.replace(/<[^>]*>?/gm, ''), // limpa HTML
+        descricao: acf.evento_descricao.replace(/<[^>]*>?/gm, ''),
         data: acf.evento_inicio || item.date || 'Data não informada',
         local: acf.evento_local || 'Local não informado',
         categoria: acf.evento_categoria || null,

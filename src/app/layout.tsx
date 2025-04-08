@@ -10,7 +10,7 @@ export default function RootLayout({
       <body>
         <header>
           <div className="header-container">
-            <h1 className="header-title">Nome do Seu Curso</h1>
+            <h1 className="header-title">SI UFSM</h1>
             <nav>
               <ul>
                 <li><a href="#">Início</a></li>
@@ -28,7 +28,7 @@ export default function RootLayout({
 
         <footer>
           <div className="footer-container">
-            <p>© {new Date().getFullYear()} Nome do Seu Curso. Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} UFSM. Stefanossq.Sistemas de informacao</p>
           </div>
         </footer>
       </body>
