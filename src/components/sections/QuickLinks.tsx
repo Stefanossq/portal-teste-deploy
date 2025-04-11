@@ -1,22 +1,32 @@
+'use client';
+
 export default function QuickLinks() {
   const links = [
-    { name: "Grade Curricular", url: "#" },
-    { name: "Corpo Docente", url: "#" },
-    { name: "Editais", url: "#" }
+    { label: 'Ciência da Computação', icon: '🖥️', href: '#' },
+    { label: 'Engenharia de Computação', icon: '💻', href: '#' },
+    { label: 'CEI', icon: '💡', href: '#' },
+    { label: 'PPGC', icon: '🧠', href: '#' },
+    { label: 'PGMICRO', icon: '🔬', href: '#' },
+    { label: 'PPGIE', icon: '📚', href: '#' },
+    { label: 'Mapa Interno', icon: '📍', href: '#' },
+    { label: 'Biblioteca', icon: '📖', href: '#' },
+    { label: 'Moodle', icon: '🎓', href: '#' },
+    { label: 'Contato dos Setores', icon: '📞', href: '#' },
+    { label: 'Portal de Serviços', icon: '⚙️', href: '#' },
+    { label: 'AdmRede', icon: '🛠️', href: '#' },
   ];
 
   return (
-    <div className="quick-links">
-      <h3>Links Rápidos</h3>
-      <ul>
-        {links.map((link, index) => (
-          <li key={index}>
-            <a href={link.url} className="quick-link">
-              {link.name}
-            </a>
-          </li>
+    <section className="quick-links">
+      <h2>Acesso rápido</h2>
+      <div className="quick-links-grid">
+        {links.map((link, i) => (
+          <a key={i} href={link.href} className="quick-link">
+            <div className="icon">{link.icon}</div>
+            <span className="label">{link.label}</span>
+          </a>
         ))}
-      </ul>
-    </div>
+      </div>
+    </section>
   );
 }

@@ -11,7 +11,7 @@ model Evento {
   id        String   @id @default(uuid()) // ID como string UUID
   titulo    String
   descricao String
-  data      String   // ou DateTime se preferir
+  data      String   // formato ISO, ex: "2023-08-01"
   local     String
   categoria String?
   tipo      String?
