@@ -1,4 +1,7 @@
+// src/app/layout.tsx
+
 import './globals.css'
+import Link from 'next/link'
 
 export default function RootLayout({
   children,
@@ -7,16 +10,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className="layout">
         <header>
           <div className="header-container">
-            <h1 className="header-title">SI UFSM</h1>
+            <Link href="/" className="logo">SI UFSM</Link>
             <nav>
-              <ul>
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Sobre</a></li>
-                <li><a href="#">Disciplinas</a></li>
-                <li><a href="#">Contato</a></li>
+              <ul className="nav-list">
+                <li><Link href="/">Início</Link></li>
+                <li><Link href="/sobre">Sobre</Link></li>
+                <li><Link href="/disciplinas">Disciplinas</Link></li>
+                <li className="contact-dropdown">
+                  <span className="nav-link">Contato</span>
+                  <div className="contact-info">
+                    <a href="tel:+555532219999">55 3221 9999</a><br />
+                    <a href="tel:+5555991234566">55 99123 - 4566</a>
+                  </div>
+                </li>
               </ul>
             </nav>
           </div>
@@ -28,7 +37,7 @@ export default function RootLayout({
 
         <footer>
           <div className="footer-container">
-            <p>© {new Date().getFullYear()} UFSM. Stefanossq.Sistemas de informacao</p>
+            <p>© {new Date().getFullYear()} UFSM. Stefanossq. Sistemas de Informação</p>
           </div>
         </footer>
       </body>
