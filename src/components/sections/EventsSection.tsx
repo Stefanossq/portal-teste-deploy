@@ -1,25 +1,39 @@
 'use client';
+
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface Evento {
   id: number;
-  titulo: string;
-  data: string;
+  acf: {
+    evento_nome: string;
+    evento_inicio: string;
+  };
 }
 
 export default function EventsSection() {
   const [events, setEvents] = useState<Evento[]>([]);
   const [showAll, setShowAll] = useState(false);
-  const maxEvents = 5; // Limite de eventos visíveis inicialmente
+  const maxEvents = 5;
 
   useEffect(() => {
-    fetch("/api/eventos")
+    fetch("https://www.ufsm.br/wp-json/wp/v2/eventos")
       .then((res) => res.json())
       .then((data) => setEvents(data))
       .catch((err) => console.error("Erro ao buscar eventos:", err));
   }, []);
 
   const visibleEvents = showAll ? events : events.slice(0, maxEvents);
+
+  const formatarData = (dataString: string) => {
+    try {
+      const [datePart, timePart] = dataString.split(' ');
+      const [day, month, year] = datePart.split('/');
+      return new Date(`${year}-${month}-${day}T${timePart}`).toLocaleDateString('pt-BR');
+    } catch {
+      return dataString;
+    }
+  };
 
   return (
     <div className="events-container bg-white p-4 rounded shadow">
@@ -29,10 +43,17 @@ export default function EventsSection() {
           <>
             {visibleEvents.map((event) => (
               <li key={event.id} className="pb-2 border-b border-gray-100 last:border-0">
-                <a href="#" className="events-link hover:text-blue-600 block">
-                  {event.titulo}
-                </a>
-                <p className="events-date text-sm text-gray-500">{event.data}</p>
+                <Link 
+                  href={`/eventos/detalhes?id=${event.id}`} 
+                  className="events-link hover:text-blue-600 block"
+                >
+                  {event.acf.evento_nome}
+                </Link>
+                <p className="events-date text-sm text-gray-500">
+                  {event.acf.evento_inicio
+                    ? formatarData(event.acf.evento_inicio)
+                    : "Data não informada"}
+                </p>
               </li>
             ))}
             {events.length > maxEvents && (

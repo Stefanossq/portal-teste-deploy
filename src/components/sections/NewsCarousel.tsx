@@ -31,6 +31,7 @@ export default function NewsCarousel() {
           date: item.data,
           type: 'event',
           image: item.imagemUrl || null,
+          link: item.link || null
         }));
 
         setItems(formatted);

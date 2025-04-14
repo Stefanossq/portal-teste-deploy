@@ -52,7 +52,8 @@ async function main() {
           local: acf.evento_local || 'Local não informado',
           categoria: acf.evento_categoria || null,
           tipo: item.type || null,
-          imagemUrl: acf.evento_banner?.url || null
+          imagemUrl: acf.evento_banner?.url || null,
+          link: item.link || null
         }
 
         await prisma.evento.upsert({

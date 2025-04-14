@@ -16,6 +16,7 @@ model Evento {
   categoria String?
   tipo      String?
   imagemUrl String?
+  link      String?
 }
 
 model Destaque {

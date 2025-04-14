@@ -738,3 +738,15 @@ nav a {
 .disciplina-details a:hover {
   text-decoration: underline;
 }
+
+/* app/globals.css */
+.event-details {
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.event-image {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
